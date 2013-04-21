@@ -1,2 +1,2 @@
-focusns-maven-plugin
+Focusns Maven Plugin
 ====================
