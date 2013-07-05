@@ -27,11 +27,15 @@ import maven.plugin.focusns.setting.DatabaseWizard;
 import maven.plugin.focusns.setting.OpenApiWizard;
 import maven.plugin.focusns.setting.ServerWizard;
 import maven.plugin.focusns.setting.Wizard;
+import maven.plugin.focusns.utils.PrintUtils;
 import maven.plugin.focusns.utils.Properties;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.project.MavenProject;
+import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -45,10 +49,14 @@ public class SetupMojo extends AbstractMojo {
     private static final String RUNTIME_BASE = System.getProperty("user.home");
     private static final String RUNTIME_PATH = RUNTIME_BASE + File.separator + RUNTIME_NAME;
     //
-
     private static final Wizard databaseWizard = new DatabaseWizard();
     private static final Wizard openApiWizard = new OpenApiWizard();
     private static final Wizard serverWizader = new ServerWizard();
+    //
+    @Parameter(property = "project")
+    private MavenProject mavenProject;
+    @Parameter(property = "productName", defaultValue = "FocusSNS")
+    private String productName;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -64,7 +72,7 @@ public class SetupMojo extends AbstractMojo {
             //
             // openApiWizard.setup(scanner, globalSettings);
             //
-            serverWizader.setup(scanner, globalSettings);
+            //serverWizader.setup(scanner, globalSettings);
             //
             storeToRuntime(globalSettings);
             //
@@ -75,34 +83,35 @@ public class SetupMojo extends AbstractMojo {
         }
     }
 
-    private static void printWelcome(Scanner scanner) {
+
+
+    private void printWelcome(Scanner scanner) {
         StringBuilder welcome = new StringBuilder();
-        welcome.append("######################################\n");
-        welcome.append("#                                    #\n");
-        welcome.append("#     欢迎进入 FocusSNS 安装程序       #\n");
-        welcome.append("#     当前版本 2.0.0                  #\n");
-        welcome.append("#                                    #\n");
-        welcome.append("######################################\n");
+        welcome.append("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+        welcome.append(String.format("\n     欢迎进入 %s 安装程序     \n", productName));
+        welcome.append(String.format("     当前版本 %s     \n", mavenProject.getVersion()));
+        welcome.append("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         //
-        System.out.println(welcome);
+        PrintUtils.println(welcome);
         //
-        System.out.print("如需退出安装程序，请输入【exit】：");
+        PrintUtils.print("如需退出安装程序，请输入“exit”，否则按[Enter]键：");
         String exit = scanner.nextLine();
         if ("exit".equalsIgnoreCase(exit)) {
             System.exit(0);
         }
     }
 
-    private static void printEnjoyment(Scanner scanner) {
+    private void printEnjoyment(Scanner scanner) {
         StringBuilder enjoyment = new StringBuilder();
-        enjoyment.append("FocusSNS 已经安装成功，开始享用吧...");
+        enjoyment.append("恭喜你！ FocusSNS 已经设置成功...");
         //
-        System.out.println(enjoyment);
+        PrintUtils.println(enjoyment);
         // press any key to exit
         scanner.nextLine();
+        System.exit(0);
     }
 
-    private static void storeToRuntime(Properties globalSettings) throws IOException {
+    private void storeToRuntime(Properties globalSettings) throws IOException {
         File runtime = new File(RUNTIME_PATH);
         if (!runtime.exists()) {
             runtime.mkdirs();

@@ -63,7 +63,7 @@ public class ServerWizard implements Wizard {
         StringBuilder welcomeBuilder = new StringBuilder();
         welcomeBuilder.append("\n###################################\n");
         welcomeBuilder.append("#                                 #\n");
-        welcomeBuilder.append("#             服务器安装           #\n");
+        welcomeBuilder.append("#             服务器安装          #\n");
         welcomeBuilder.append("#                                 #\n");
         welcomeBuilder.append("###################################\n");
         System.out.println(welcomeBuilder);

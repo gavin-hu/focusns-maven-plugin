@@ -1,10 +1,10 @@
-package maven.plugin.focusns.setting;
+package maven.plugin.focusns.utils;
 
 /*
  * #%L
- * FocusSNS Install
+ * Focusns Maven Plugin
  * %%
- * Copyright (C) 2011 - 2013 FocusSNS
+ * Copyright (C) 2013 FocusSNS
  * %%
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as 
@@ -22,30 +22,15 @@ package maven.plugin.focusns.setting;
  * #L%
  */
 
-import maven.plugin.focusns.utils.Properties;
 
-import java.util.Scanner;
+public abstract class PrintUtils {
 
-public class ConsoleWizard implements Wizard {
-
-    private String username;
-    private String password;
-
-    public void setup(Scanner scanner, Properties globalSettings) throws Exception {
-        //
-
-        //
+    public static void print(Object object) {
+        System.out.print(object);
     }
 
-    private void printWelcome() {
-        StringBuilder welcome = new StringBuilder();
+    public static void println(Object object) {
+        System.out.println(object);
     }
 
-    private void scanUsername(Scanner scanner) {
-
-    }
-
-    private void scanPassword(Scanner scanner) {
-
-    }
 }
